@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  emtantra_mqtt_broker:
+    image: eclipse-mosquitto
+    hostname: emtantra_mqtt_broker
+    container_name: emtantra_mqtt_broker
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto:/etc/mosquitto
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+  emtantra_mqtt_client:
+    image: iotemtantra/et_aco_mqtt_v20
+    container_name: emtantra_mqtt_cleint
+    restart: unless-stopped
+    depends_on:
+      - emtantra_mqtt_broker
+    environment:
+      - HOST=emtantra_mqtt_broker
+      - PORT=1883
+      #- DB_URI=mongodb+srv://etaco:Etgs%402024@cluster0.s7qonig.mongodb.net/ET-ACO-MQTT?retryWrites=true&w=majority&appName=Cluster0
+      - DB_URI=mongodb+srv://gassol:tohNx0hKKgqmVidV@cluster0.s7qonig.mongodb.net/gassol?retryWrites=true&w=majority&appName=Cluster0
+      - DB_NAME=gassol
+
+  emtantra_http_server:
+    image: iotemtantra/et_aco_http_v20
+    container_name: emtantra_http_server
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=8000
+      - MQTT_CLIENT_ID=http/server
+      - MQTT_HOST=emtantra_mqtt_broker
+      - MQTT_PORT=1883
+      #- DB_URI=mongodb+srv://etaco:Etgs%402024@cluster0.s7qonig.mongodb.net/ET-ACO-MQTT?retryWrites=true&w=majority&appName=Cluster0
+      - DB_URI=mongodb+srv://gassol:tohNx0hKKgqmVidV@cluster0.s7qonig.mongodb.net/gassol?retryWrites=true&w=majority&appName=Cluster0
+      - DB_NAME=gassol

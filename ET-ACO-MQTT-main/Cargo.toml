@@ -1,0 +1,18 @@
+[package]
+name = "emtantra_mqtt"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+mongodb = "3.0.1"
+rumqttc = "0.24.0"
+thiserror = "1.0.63"
+serde={version="1",features=["derive"]}
+tokio={version="1",features=["full"]}
+dotenv = "0.15.0"
+serde_json = "1.0.121"
+chrono ="0.4.38"
+tokio-cron-scheduler = "*"
+uuid = { version = "1.2", features = ["v4"] }
