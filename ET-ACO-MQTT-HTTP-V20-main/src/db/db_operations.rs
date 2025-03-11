@@ -3,7 +3,7 @@ use mongodb::error::Error as MongoError;
 use thiserror::Error;
 use std::env;
 
-use crate::models::device::{Device, DeviceUpdateRequest};
+use crate::models::device::{self, Device, DeviceUpdateRequest};
 
 #[derive(Error,Debug)]
 pub enum DeviceError {
@@ -58,10 +58,12 @@ impl DB {
         let update_doc=doc! {"$set": {
             "sg": device.sg,
             "prv": device.prv,
+            "prm":device.prm,
             "mt": device.mt,
             "bn": device.bn,
             "mf1_st": device.mf1_st,
             "mf2_st": device.mf2_st,
+            "psr":device.psr,
             "ws": device.ws,
             "mf_shd": device.mf_shd,
             "sms": device.sms,
@@ -74,6 +76,10 @@ impl DB {
             "ht": device.ht,
             "sen": device.sen,
             "stu": device.stu,
+            "prlt":device.prlt,
+            "prht":device.prht,
+            "tch":device.tch,
+            "tmp":device.tmp,
         }};
 
         let db_result=self.devices.update_one(filter_query, update_doc).await?;
@@ -86,7 +92,7 @@ impl DB {
         
     }
 
-    pub async fn get_devices_by_date(self:&Self) {
+    // pub async fn get_devices_by_date(self:&Self) {
         
-    }
+    // }
 }

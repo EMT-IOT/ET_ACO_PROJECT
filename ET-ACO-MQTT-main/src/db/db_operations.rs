@@ -81,6 +81,11 @@ impl DB {
                             devices.push((key.to_string(), device.prv.clone()));
                         }
                     }
+                    "prm" => {
+                        if value != device.prm {
+                            devices.push((key.to_string(),device.prm.clone()));
+                        }
+                    }
                     "mt" => {
                         if value != device.mt {
                             devices.push((key.to_string(), device.mt.clone()));
@@ -99,6 +104,11 @@ impl DB {
                     "mf2_st" => {
                         if value != device.mf2_st {
                             devices.push((key.to_string(), device.mf2_st.clone()));
+                        }
+                    }
+                    "psr" => {
+                        if value != device.psr {
+                            devices.push((key.to_string(),device.psr.clone()));
                         }
                     }
                     "ws" => {
@@ -159,6 +169,26 @@ impl DB {
                     "stu" => {
                         if value != device.stu {
                             devices.push((key.to_string(), device.stu.clone()));
+                        }
+                    },
+                    "prlt" => {
+                        if value != device.prlt {
+                            devices.push((key.to_string(),device.prlt.clone()));
+                        }
+                    },
+                    "prht" => {
+                        if value != device.prht {
+                            devices.push((key.to_string(),device.prht.clone()));
+                        }
+                    },
+                    "tch" => {
+                        if value != device.tch {
+                            devices.push((key.to_string(),device.tch.clone()));
+                        }
+                    }
+                    "tmp" => {
+                        if value != device.tmp {
+                            devices.push((key.to_string(),device.tmp.clone()));
                         }
                     }
                     _ => (),

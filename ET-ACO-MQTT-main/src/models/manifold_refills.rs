@@ -1,11 +1,12 @@
 use mongodb::bson::DateTime;
 use serde::{Serialize,Deserialize};
 
+
 #[derive(Debug,Serialize,Deserialize)]
 #[serde(rename_all="UPPERCASE")]
 pub struct ManifoldRefillReq {
     pub id:String,
-    pub mf1_st:String
+    pub mf1_st:String,
 }
 
 #[derive(Debug,Serialize,Deserialize)]

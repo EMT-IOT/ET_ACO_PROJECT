@@ -64,6 +64,12 @@ impl MqttService {
                 .unwrap_or("0")
                 .to_string();
 
+            let prm = payload_value
+                .get("PRM")
+                .and_then(|v| v.as_str())
+                .unwrap_or("0")
+                .to_string();
+
             let mt = payload_value
                 .get("MT")
                 .and_then(|v| v.as_str())
@@ -85,6 +91,12 @@ impl MqttService {
             let mf2_st = payload_value
                 .get("MF2_ST")
                 .and_then(|v| v.as_str())
+                .unwrap_or("0")
+                .to_string();
+
+            let psr = payload_value
+                .get("PSR")
+                .and_then(|v|v.as_str())
                 .unwrap_or("0")
                 .to_string();
 
@@ -152,13 +164,35 @@ impl MqttService {
                 .and_then(|v| v.as_str())
                 .unwrap_or("0")
                 .to_string();
+            let prlt = payload_value
+                .get("PRLT")
+                .and_then(|v| v.as_str())
+                .unwrap_or("0")
+                .to_string();
+            let prht = payload_value
+                .get("PRHT")
+                .and_then(|v| v.as_str())
+                .unwrap_or("0")
+                .to_string();
+            let tch = payload_value
+                .get("TCH")
+                .and_then(|v| v.as_str())
+                .unwrap_or("0")
+                .to_string();
+            let tmp = payload_value
+                .get("TMP")
+                .and_then(|v| v.as_str())
+                .unwrap_or("0")
+                .to_string();
 
             let device_past_data = vec![
                 ("sg", sg),
                 ("prv", prv),
+                ("prm",prm),
                 ("mt", mt),
                 ("bn", bn),
                 ("mf1_st", mf1_st),
+                ("psr",psr),
                 ("mf2_st", mf2_st),
                 ("ws", ws),
                 ("mf_shd", mf_shd),
@@ -172,6 +206,10 @@ impl MqttService {
                 ("ht", ht),
                 ("sen", sen),
                 ("stu", stu),
+                ("prlt",prlt),
+                ("prht",prht),
+                ("tch",tch),
+                ("tmp",tmp)
             ];
 
             let device_changed_parameters_vec = db
@@ -187,6 +225,7 @@ impl MqttService {
                 .publish(publish_topic, QoS::AtLeastOnce, false, publish_payload)
                 .await?;
         } else if payload_value.get("WT").is_some() {
+
             let status_update_req = serde_json::from_str::<StatusUpdateReq>(payload_str.as_str())?;
 
             let status_update = StatusUpdates::new(status_update_req);
