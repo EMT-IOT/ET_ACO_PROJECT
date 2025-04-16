@@ -22,6 +22,9 @@ pub struct ManifoldShiftReq {
     #[serde(default="default_zero")]
     pub mf:String,
     pub mf_on:String,
+    //new key added on 16/4/2025
+    #[serde(default="default_zero")]
+    pub mf_off:String,
     pub pr:String,
     //new key added on 11/3/2024
     #[serde(default="default_zero")]
@@ -36,6 +39,7 @@ pub struct ManifoldShifts {
     pub id:String,
     pub mf:String,
     pub mf_on:String,
+    pub mf_off:String,
     pub pr:String,
     pub mfpc:String,
     pub mfpe:String,
@@ -48,6 +52,7 @@ impl ManifoldShifts {
             id:manifold_shift_request.id,
             mf:manifold_shift_request.mf,
             mf_on:manifold_shift_request.mf_on,
+            mf_off:manifold_shift_request.mf_off,
             pr:manifold_shift_request.pr,
             mfpc:manifold_shift_request.mfpc,
             mfpe:manifold_shift_request.mfpe,

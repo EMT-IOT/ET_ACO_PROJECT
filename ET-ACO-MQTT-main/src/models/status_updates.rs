@@ -17,6 +17,9 @@ pub struct StatusUpdateReq {
     pub sg:String,
     pub mf1_st:String,
     pub mf2_st:String,
+    //new key added on 156/4/2025
+    #[serde(default="default_zero")]
+    pub mf_off: String,
     //new key added on 12/3/2025
     #[serde(default="default_zero")]
     pub psr:String,
@@ -38,6 +41,7 @@ pub struct StatusUpdates {
     pub sg:String,
     pub mf1_st:String,
     pub mf2_st:String,
+    pub mf_off:String,
     pub psr:String,
     pub br_rn:String,
     pub pr:String,
@@ -55,6 +59,7 @@ impl StatusUpdates {
             sg: status_update_request.sg,
             mf1_st: status_update_request.mf1_st,
             mf2_st: status_update_request.mf2_st,
+            mf_off:status_update_request.mf_off,
             psr: status_update_request.psr,
             br_rn: status_update_request.br_rn,
             pr: status_update_request.pr,
