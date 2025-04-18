@@ -17,14 +17,18 @@ fn default_zero() -> String {
 #[derive(Debug,Serialize,Deserialize)]
 #[serde(rename_all="UPPERCASE")]
 pub struct ManifoldShiftReq {
+    #[serde(default="default_zero")]
     pub id:String,
     //new key added on 11/3/2024
     #[serde(default="default_zero")]
     pub mf:String,
+    //new key added on 11/3/2024
+    #[serde(default="default_zero")]
     pub mf_on:String,
     //new key added on 16/4/2025
     #[serde(default="default_zero")]
     pub mf_off:String,
+    #[serde(default="default_zero")]
     pub pr:String,
     //new key added on 11/3/2024
     #[serde(default="default_zero")]

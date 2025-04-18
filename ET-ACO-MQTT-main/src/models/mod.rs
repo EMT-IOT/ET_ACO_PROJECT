@@ -3,3 +3,4 @@ pub mod manifold_refills;
 pub mod manifold_shifts;
 pub mod sensor_alerts;
 pub mod status_updates;
+pub mod device_settings;

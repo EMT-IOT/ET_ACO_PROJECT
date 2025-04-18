@@ -1,10 +1,11 @@
-use mongodb::bson::{doc, DateTime};
+use mongodb::bson::{de, doc, DateTime};
 use mongodb::error::Error as MongoError;
 use mongodb::{Client, Collection};
 use std::env;
 use thiserror::Error;
 
 use crate::models::device::Device;
+use crate::models::device_settings::DeviceSettings;
 use crate::models::manifold_refills::ManifoldRefills;
 use crate::models::manifold_shifts::ManifoldShifts;
 use crate::models::sensor_alerts::SensorAlerts;
@@ -19,6 +20,7 @@ pub enum DeviceError {
 #[derive(Clone)]
 pub struct DB {
     pub devices: Collection<Device>,
+    pub device_settings: Collection<DeviceSettings>,
     pub status_updates: Collection<StatusUpdates>,
     pub manifold_refills: Collection<ManifoldRefills>,
     pub manifold_shifts: Collection<ManifoldShifts>,
@@ -33,6 +35,7 @@ impl DB {
 
         let database = client.database(&db_name);
         let devices: Collection<Device> = database.collection("devices");
+        let device_settings:Collection<DeviceSettings> = database.collection("device_settings");
         let status_updates: Collection<StatusUpdates> = database.collection("status_updates");
         let manifold_refills: Collection<ManifoldRefills> = database.collection("manifold_refills");
         let manifold_shifts: Collection<ManifoldShifts> = database.collection("manifold_shifts");
@@ -46,6 +49,7 @@ impl DB {
 
         return Ok(Self {
             devices,
+            device_settings,
             status_updates,
             manifold_refills,
             manifold_shifts,
@@ -206,6 +210,11 @@ impl DB {
         self.devices.update_one(filter_query, update_query).await?;
 
         return Ok(devices);
+    }
+
+    pub async fn insert_device_settings(self: &Self,device_settings: DeviceSettings) -> Result<(),DeviceError> {
+        self.device_settings.insert_one(device_settings).await?;
+        return Ok(());
     }
 
     pub async fn insert_status_update(

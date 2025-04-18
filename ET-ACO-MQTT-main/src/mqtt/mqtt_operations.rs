@@ -6,6 +6,7 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use crate::db::db_operations::DB;
+use crate::models::device_settings::{DeviceSettings, DeviceSettingsRequest};
 use crate::models::manifold_refills::ManifoldRefillReq;
 use crate::models::manifold_shifts::ManifoldShiftReq;
 use crate::models::sensor_alerts::{SensorAlertReq, SensorAlerts};
@@ -46,184 +47,12 @@ impl MqttService {
         let payload_value = serde_json::from_str::<Value>(payload_str.as_str())?;
 
         if payload_value.get("PRV").is_some() {
-            // let id = payload_value
-            //     .get("ID")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
+            let device_settings_req = serde_json::from_str::<DeviceSettingsRequest>(payload_str.as_str())?;
 
-            // let sg = payload_value
-            //     .get("SG")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
+            let device_settings = DeviceSettings::new(device_settings_req);
 
-            // let prv = payload_value
-            //     .get("PRV")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
+            db.insert_device_settings(device_settings).await?;
 
-            // let prm = payload_value
-            //     .get("PRM")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-
-            // let mt = payload_value
-            //     .get("MT")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-
-            // let bn = payload_value
-            //     .get("BN")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-
-            // let mf1_st = payload_value
-            //     .get("MF1_ST")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-
-            // let mf2_st = payload_value
-            //     .get("MF2_ST")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-
-            // let psr = payload_value
-            //     .get("PSR")
-            //     .and_then(|v|v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-
-            // let ws = payload_value
-            //     .get("WS")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-
-            // let mf_shd = payload_value
-            //     .get("MF_SHD")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-
-            // let sms = payload_value
-            //     .get("SMS")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-
-            // let to = payload_value
-            //     .get("TO")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-
-            // let mfr = payload_value
-            //     .get("MFR")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-            // let gld = payload_value
-            //     .get("GLD")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-            // let aco = payload_value
-            //     .get("ACO")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-            // let hi = payload_value
-            //     .get("HI")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-            // let lw = payload_value
-            //     .get("LW")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-            // let ht = payload_value
-            //     .get("HT")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-            // let sen = payload_value
-            //     .get("SEN")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-            // let stu = payload_value
-            //     .get("STU")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-            // let prlt = payload_value
-            //     .get("PRLT")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-            // let prht = payload_value
-            //     .get("PRHT")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-            // let tch = payload_value
-            //     .get("TCH")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-            // let tmp = payload_value
-            //     .get("TMP")
-            //     .and_then(|v| v.as_str())
-            //     .unwrap_or("0")
-            //     .to_string();
-
-            // let device_past_data = vec![
-            //     ("sg", sg),
-            //     ("prv", prv),
-            //     ("prm",prm),
-            //     ("mt", mt),
-            //     ("bn", bn),
-            //     ("mf1_st", mf1_st),
-            //     ("psr",psr),
-            //     ("mf2_st", mf2_st),
-            //     ("ws", ws),
-            //     ("mf_shd", mf_shd),
-            //     ("sms", sms),
-            //     ("to", to),
-            //     ("mfr", mfr),
-            //     ("gld", gld),
-            //     ("aco", aco),
-            //     ("hi", hi),
-            //     ("lw", lw),
-            //     ("ht", ht),
-            //     ("sen", sen),
-            //     ("stu", stu),
-            //     ("prlt",prlt),
-            //     ("prht",prht),
-            //     ("tch",tch),
-            //     ("tmp",tmp)
-            // ];
-
-            // let device_changed_parameters_vec = db
-            //     .find_device_changed_parameters(id.clone(), device_past_data)
-            //     .await?;
-            // let device_changed_parameters_map: HashMap<String, String> =
-            //     device_changed_parameters_vec.into_iter().collect();
-
-            // let publish_topic = format!("{}/RX", id);
-            // let publish_payload = serde_json::to_string(&device_changed_parameters_map)?;
-
-            // client
-            //     .publish(publish_topic, QoS::AtLeastOnce, false, publish_payload)
-            //     .await?;
         } else if payload_value.get("WT").is_some() {
 
             let status_update_req = serde_json::from_str::<StatusUpdateReq>(payload_str.as_str())?;
@@ -231,7 +60,7 @@ impl MqttService {
             let status_update = StatusUpdates::new(status_update_req);
 
             db.insert_status_update(status_update).await?;
-        } else if payload_value.get("MF_ON").is_some() || payload_value.get("MF").is_some() {
+        } else if (payload_value.get("MF_ON").is_some()) || (payload_value.get("MF").is_some()) {
             let manifold_shift_req =
                 serde_json::from_str::<ManifoldShiftReq>(payload_str.as_str())?;
 
