@@ -231,7 +231,7 @@ impl MqttService {
             let status_update = StatusUpdates::new(status_update_req);
 
             db.insert_status_update(status_update).await?;
-        } else if payload_value.get("MF_ON").is_some() {
+        } else if payload_value.get("MF_ON").is_some() || payload_value.get("MF").is_some() {
             let manifold_shift_req =
                 serde_json::from_str::<ManifoldShiftReq>(payload_str.as_str())?;
 
