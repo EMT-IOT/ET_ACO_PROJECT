@@ -17,7 +17,7 @@ pub struct StatusUpdateReq {
     pub sg:String,
     pub mf1_st:String,
     pub mf2_st:String,
-    //new key added on 156/4/2025
+    //new key added on 15/4/2025
     #[serde(default="default_zero")]
     pub mf_off: String,
     //new key added on 12/3/2025

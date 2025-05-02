@@ -95,7 +95,13 @@ pub struct DeviceSettingsRequest {
     #[serde(default="default_zero")]
     pub tmp:String,
     #[serde(default="default_zero")]
-    pub swv:String
+    pub swv:String,
+    //new key added on 2/5/2025
+    #[serde(default="default_zero")]
+    pub al:String,
+    //new key added on 2/5/2025
+    #[serde(default="default_zero")]
+    pub ts:String,
 }
 
 #[derive(Debug,Serialize,Deserialize)]
@@ -127,6 +133,8 @@ pub struct DeviceSettings{
     pub tch:String,
     pub tmp:String,
     pub swv:String,
+    pub al:String,
+    pub ts:String,
     pub datetime:DateTime
 }
 
@@ -161,6 +169,8 @@ impl DeviceSettings {
           tch: request.tch,
           tmp: request.tmp,
           swv: request.swv,
+          al: request.al,
+          ts:request.ts,
           datetime:DateTime::now(),
         }
     }
