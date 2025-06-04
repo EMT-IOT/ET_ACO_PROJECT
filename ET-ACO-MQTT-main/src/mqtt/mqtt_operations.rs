@@ -71,13 +71,16 @@ impl MqttService {
             let sensor_alert_req = serde_json::from_str::<SensorAlertReq>(payload_str.as_str())?;
             let sensor_alert = SensorAlerts::new(sensor_alert_req);
             db.insert_sensor_alert(sensor_alert).await?;
-        } else {
+        } else if payload_value.get("BY").is_some() {
             let manifold_refill_req =
                 serde_json::from_str::<ManifoldRefillReq>(&payload_str.as_str())?;
 
             let manifold_refills = ManifoldRefills::new(manifold_refill_req);
 
             db.insert_manifold_refills(manifold_refills).await?;
+        } else {
+            let json_value:serde_json::Value= serde_json::from_str(&payload_str.as_str())?;
+            db.insert_optional_data(json_value).await?;
         }
 
         return Ok(());

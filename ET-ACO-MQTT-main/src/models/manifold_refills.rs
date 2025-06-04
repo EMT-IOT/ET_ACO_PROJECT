@@ -25,7 +25,7 @@ pub struct ManifoldRefillReq {
 pub struct ManifoldRefills {
     pub id:String,
     pub mf1_st:String,
-    pub mf2_st:String,
+    pub mf2_st:String, 
     pub by:String,
     pub datetime:DateTime
 }

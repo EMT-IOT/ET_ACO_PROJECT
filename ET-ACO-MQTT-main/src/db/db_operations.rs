@@ -1,4 +1,4 @@
-use mongodb::bson::{de, doc, DateTime};
+use mongodb::bson::{self, de, doc, DateTime, Document};
 use mongodb::error::Error as MongoError;
 use mongodb::{Client, Collection};
 use std::env;
@@ -25,6 +25,7 @@ pub struct DB {
     pub manifold_refills: Collection<ManifoldRefills>,
     pub manifold_shifts: Collection<ManifoldShifts>,
     pub sensor_alerts: Collection<SensorAlerts>,
+    pub optional_data: Collection<Document>
 }
 
 impl DB {
@@ -40,6 +41,7 @@ impl DB {
         let manifold_refills: Collection<ManifoldRefills> = database.collection("manifold_refills");
         let manifold_shifts: Collection<ManifoldShifts> = database.collection("manifold_shifts");
         let sensor_alerts: Collection<SensorAlerts> = database.collection("sensor_alerts");
+        let optional_data: Collection<Document> = database.collection("optional data");
 
         client
             .database(&db_name)
@@ -54,6 +56,7 @@ impl DB {
             manifold_refills,
             manifold_shifts,
             sensor_alerts,
+            optional_data,
         });
     }
 
@@ -247,5 +250,16 @@ impl DB {
     ) -> Result<(), DeviceError> {
         self.sensor_alerts.insert_one(sensor_alert).await?;
         return Ok(());
+    }
+
+    pub async fn insert_optional_data(self: &Self,data: serde_json::Value) -> Result<(), DeviceError>  {
+        let res = bson::to_document(&data);
+        match res  {
+            Ok(doc) => {
+            self.optional_data.insert_one(doc).await?;
+            Ok(())
+            }
+            _ => Ok(())
+        }
     }
 }
